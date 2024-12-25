@@ -53,7 +53,7 @@ if run_in_background == True:
 
 required_keys = {
     "first_name", "last_name", "phone_number", "current_city", "state", "zipcode", "country",
-    "search_terms" # Added resume_data here
+    "search_terms","resume_data","resume_path" # Added resume_data here
 }
 
 missing_keys = required_keys - set(user_config.keys())
