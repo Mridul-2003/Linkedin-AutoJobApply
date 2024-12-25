@@ -1,0 +1,46 @@
+Seems like either... 
+
+1. Chrome is already running. 
+A. Close all Chrome windows and try again. 
+
+2. Google Chrome or Chromedriver is out dated. 
+A. Update browser and Chromedriver (You can run "windows-setup.bat" in /setup folder for Windows PC to update Chromedriver)! 
+
+3. If error occurred when using "stealth_mode", try reinstalling undetected-chromedriver. 
+A. Open a terminal and use commands "pip uninstall undetected-chromedriver" and "pip install undetected-chromedriver". 
+
+
+If issue persists, try Safe Mode. Set, safe_mode = True in config.py 
+
+Please check GitHub discussions/support for solutions https://github.com/GodsScion/Auto_job_applier_linkedIn 
+                                   OR 
+Reach out in discord ( https://discord.gg/fFp7uUzWCY )
+In Opening Chrome
+name 'default_resume_path' is not defined
+2024-12-25 12:30:42.333193
+Seems like either... 
+
+1. Chrome is already running. 
+A. Close all Chrome windows and try again. 
+
+2. Google Chrome or Chromedriver is out dated. 
+A. Update browser and Chromedriver (You can run "windows-setup.bat" in /setup folder for Windows PC to update Chromedriver)! 
+
+3. If error occurred when using "stealth_mode", try reinstalling undetected-chromedriver. 
+A. Open a terminal and use commands "pip uninstall undetected-chromedriver" and "pip install undetected-chromedriver". 
+
+
+If issue persists, try Safe Mode. Set, safe_mode = True in config.py 
+
+Please check GitHub discussions/support for solutions https://github.com/GodsScion/Auto_job_applier_linkedIn 
+                                   OR 
+Reach out in discord ( https://discord.gg/fFp7uUzWCY )
+In Opening Chrome
+name 'default_resume_path' is not defined
+2024-12-25 12:31:14.853866
+IF YOU HAVE MORE THAN 10 TABS OPENED, PLEASE CLOSE OR BOOKMARK THEM! Or it's highly likely that application will just open browser and not do anything!
+Default profile directory not found. Logging in with a guest profile, Web history will not be saved!
+IF YOU HAVE MORE THAN 10 TABS OPENED, PLEASE CLOSE OR BOOKMARK THEM! Or it's highly likely that application will just open browser and not do anything!
+Default profile directory not found. Logging in with a guest profile, Web history will not be saved!
+IF YOU HAVE MORE THAN 10 TABS OPENED, PLEASE CLOSE OR BOOKMARK THEM! Or it's highly likely that application will just open browser and not do anything!
+Default profile directory not found. Logging in with a guest profile, Web history will not be saved!
