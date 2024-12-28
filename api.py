@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import subprocess
 import json
 import os
@@ -7,6 +8,7 @@ import uuid
 import shutil
 
 app = Flask(__name__)
+CORS(app)
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'pdf', 'docx'}
