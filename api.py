@@ -24,6 +24,7 @@ def run_bot():
         config_string = request.form.get('config')
         if not config_string:
             return jsonify({"error": "No config parameter provided in form data"}), 400
+        print("Received config string:", config_string)
         try:
             user_config = json.loads(config_string)
         except json.JSONDecodeError:
