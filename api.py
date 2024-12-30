@@ -41,7 +41,7 @@ def run_bot():
                 user_config['resume_path'] = temp_filename
 
                 # Construct the command to execute runaibot.py
-                config_string = json.dumps(user_config)
+                
                 command = ['python', '/Users/useradmin/Desktop/AutoJobsApply/Linkedin/runAiBot.py', json.dumps(user_config)]
 
                         # Start the runaibot.py script in the background.  Consider using a process pool for better management.
