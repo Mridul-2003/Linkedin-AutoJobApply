@@ -29,6 +29,16 @@ def run_bot():
             user_config = json.loads(config_string)
         except json.JSONDecodeError:
             return jsonify({"error": "Invalid JSON format in config parameter"}), 400
+            
+        required_keys = {
+            "first_name", "last_name", "phone_number", "current_city", "state", "zipcode", "country",
+            "search_terms", "resume_path"
+        }
+        missing_keys = required_keys - set(user_config.keys())
+        if missing_keys:
+            error_message = f"Error: Missing required keys in configuration: {missing_keys}"
+            print(error_message)
+            return jsonify({"error": error_message}), 400
 
         if 'resume_pdf' not in request.files:
             return jsonify({"error": "No resume file part"}), 400
