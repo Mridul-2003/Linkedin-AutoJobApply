@@ -21,7 +21,7 @@ def run_bot():
     Receives configuration variables as a JSON payload in the request body.
     """
     try:
-        user_config = request.form.get('config')
+        config_string = request.form.get('config')
         if not config_string:
             return jsonify({"error": "No config parameter provided in form data"}), 400
         try:
