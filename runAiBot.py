@@ -66,7 +66,7 @@ about_company_bad_words = ["Crossover"]
 # Access user data from the loaded JSON
 randomize_search_order = False 
 first_name = user_config.get("first_name", "")
-switch_number = user_config.get("switch_number",30)
+switch_number = user_config.get("switch_number",1000)
 middle_name = user_config.get("middle_name", "")
 last_name = user_config.get("last_name", "")
 phone_number = user_config.get("phone_number", "")
