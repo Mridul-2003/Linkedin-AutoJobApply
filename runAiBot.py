@@ -53,7 +53,7 @@ if run_in_background == True:
 
 required_keys = {
     "first_name", "last_name", "phone_number", "current_city", "state", "zipcode", "country",
-    "search_terms","resume_data","resume_path" # Added resume_data here
+    "search_terms","current_experience","resume_data","resume_path" # Added resume_data here
 }
 
 missing_keys = required_keys - set(user_config.keys())
@@ -61,6 +61,8 @@ if missing_keys:
     print(f"Error: Missing required keys in configuration: {missing_keys}")
     sys.exit(1)
 
+about_company_good_words = []
+about_company_bad_words = ["Crossover"] 
 # Access user data from the loaded JSON
 randomize_search_order = False 
 first_name = user_config.get("first_name", "")
@@ -98,7 +100,10 @@ salary = user_config.get("salary", "Any")
 benefits = user_config.get("benefits", [])
 default_resume_path = user_config.get("resume_path")
 commitments = user_config.get("commitments", [])
-
+current_experience = user_config.get("current_experience","")
+did_masters = user_config.get("did_masters".False)
+bad_words = ["US Citizen","USA Citizen","No C2C", "No Corp2Corp", ".NET", "Embedded Programming", "PHP", "Ruby", "CNC"]
+security_clearance = False 
 
 first_name = first_name.strip()
 middle_name = middle_name.strip()
