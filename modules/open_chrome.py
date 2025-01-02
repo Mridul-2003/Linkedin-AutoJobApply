@@ -17,7 +17,6 @@ try:
     # make_directories([file_name,failed_file_name,logs_folder_path+"/screenshots",default_resume_path,generated_resume_path+"/temp"])
 
     # Set up WebDriver with Chrome Profile
-    options = uc.ChromeOptions() if stealth_mode else Options()
     if run_in_background:   options.add_argument("--headless")
     if disable_extensions:  options.add_argument("--disable-extensions")
 
@@ -30,12 +29,12 @@ try:
         else: print_lg("Default profile directory not found. Logging in with a guest profile, Web history will not be saved!")
     if stealth_mode:
         try: 
-            driver = uc.Chrome(options=options)
+            driver = uc.Chrome()
         except (FileNotFoundError, PermissionError) as e: 
             print_lg("(Undetected Mode) Got '{}' when using pre-installed ChromeDriver.".format(type(e).__name__)) 
             print_lg("Downloading Chrome Driver... This may take some time. Undetected mode requires download every run!")
-            driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
-    else: driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options) #, service=Service(executable_path="C:\\Program Files\\Google\\Chrome\\chromedriver-win64\\chromedriver.exe"))
+            driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+    else: driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install())) #, service=Service(executable_path="C:\\Program Files\\Google\\Chrome\\chromedriver-win64\\chromedriver.exe"))
     driver.maximize_window()
     wait = WebDriverWait(driver, 5)
     actions = ActionChains(driver)
