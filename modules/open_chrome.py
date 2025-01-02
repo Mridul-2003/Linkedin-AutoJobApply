@@ -1,12 +1,16 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service as ChromeService
-from webdriver_manager.chrome import ChromeDriverManager
+#from selenium.webdriver.chrome.service import Service as ChromeService # remove webdriver_manager
+#from webdriver_manager.chrome import ChromeDriverManager # remove webdriver_manager
 
 try:
     options = Options()
     options.add_argument("--headless")
-    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+    options.add_argument("--disable-gpu")  # Disable GPU acceleration
+    options.add_argument("--no-sandbox")  # Required in some environments
+    options.add_argument("--disable-dev-shm-usage") # Avoids out-of-memory issues
+    options.binary_location = "/usr/bin/google-chrome-stable" # Set correct path to chrome
+    driver = webdriver.Chrome(executable_path="/usr/local/bin/chromedriver", options=options) # Set correct path to chromedriver
     print("Chrome driver instantiated successfully in headless mode.")
     driver.quit()
 except Exception as e:
