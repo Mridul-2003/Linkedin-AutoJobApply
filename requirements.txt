@@ -41,4 +41,10 @@ urllib3==2.2.3
 websocket-client==1.8.0
 websockets==13.1
 wsproto==1.2.0
-webdriver_manager
+webdriver-manager
+google-generativeai
+python-dotenv
+pdf2image
+azure-data-tables
+azure-storage-blob
+beautifulsoup4 
