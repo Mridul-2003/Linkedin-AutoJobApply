@@ -102,7 +102,7 @@ benefits = user_config.get("benefits", [])
 default_resume_path = user_config.get("resume_path")
 commitments = user_config.get("commitments", [])
 current_experience = user_config.get("current_experience","")
-did_masters = user_config.get("did_masters".False)
+did_masters = user_config.get("did_masters",False)
 bad_words = ["US Citizen","USA Citizen","No C2C", "No Corp2Corp", ".NET", "Embedded Programming", "PHP", "Ruby", "CNC"]
 security_clearance = False 
 
