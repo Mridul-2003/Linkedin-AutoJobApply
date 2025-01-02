@@ -53,7 +53,7 @@ def run_bot():
 
                 # Construct the command to execute runaibot.py
                 
-                command = ['python', '/Users/useradmin/Desktop/AutoJobsApply/Linkedin/runAiBot.py', json.dumps(user_config)]
+                command = ['python', 'runAiBot.py', json.dumps(user_config)]
 
                         # Start the runaibot.py script in the background.  Consider using a process pool for better management.
                 subprocess.Popen(command)
