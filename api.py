@@ -32,7 +32,7 @@ def run_bot():
             
         required_keys = {
             "first_name", "last_name", "phone_number", "current_city", "state", "zipcode", "country",
-            "search_terms", "resume_path"
+            "search_terms"
         }
         missing_keys = required_keys - set(user_config.keys())
         if missing_keys:
