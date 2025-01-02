@@ -59,8 +59,7 @@ except Exception as e:
     if isinstance(e,TimeoutError): msg = "Couldn't download Chrome-driver. Set stealth_mode = False in config!"
     print_lg(msg)
     critical_error_log("In Opening Chrome", e)
-    from pyautogui import alert
-    alert(msg, "Error in opening chrome")
+   
     try: driver.quit()
     except NameError: exit()
     
