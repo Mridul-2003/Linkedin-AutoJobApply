@@ -8,9 +8,8 @@ try:
     options.add_argument("--headless")
     options.add_argument("--disable-gpu")  # Disable GPU acceleration
     options.add_argument("--no-sandbox")  # Required in some environments
-    options.add_argument("--disable-dev-shm-usage") # Avoids out-of-memory issues
-    options.binary_location = "/tmp/chrome_extract/opt/google/chrome/chrome"  # Set the correct path to chrome
-    driver = webdriver.Chrome(executable_path="/tmp/chromedriver/chromedriver", options=options)  # Set correct path to chromedriver
+    options.add_argument("--disable-dev-shm-usage") # Avoids out-of-memory issues# Set the correct path to chrome
+    driver = webdriver.Chrome(executable_path="chromedriver", options=options)  # Set correct path to chromedriver
     print("Chrome driver instantiated successfully in headless mode.")
     driver.quit()
 except Exception as e:
