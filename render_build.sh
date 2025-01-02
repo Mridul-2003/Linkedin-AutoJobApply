@@ -29,3 +29,8 @@ rm chromedriver_linux64.zip
 chmod +x /usr/local/bin/chromedriver
 
 echo "Chrome and ChromeDriver installed."
+
+# Install Python dependencies
+pip install -r requirements.txt
+
+echo "Python dependencies installed."
