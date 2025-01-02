@@ -1,31 +1,16 @@
-'''
-Author:     Sai Vignesh Golla
-LinkedIn:   https://www.linkedin.com/in/saivigneshgolla/
-
-Copyright (C) 2024 Sai Vignesh Golla
-
-License:    GNU Affero General Public License
-            https://www.gnu.org/licenses/agpl-3.0.en.html
-            
-GitHub:     https://github.com/GodsScion/Auto_job_applier_linkedIn
-
-version:    24.12.3.10.30
-'''
-
 from modules.helpers import make_directories
 from config.settings import run_in_background, stealth_mode, disable_extensions, safe_mode, file_name, failed_file_name, logs_folder_path, generated_resume_path
 
 if stealth_mode:
     import undetected_chromedriver as uc
-else: 
+else:
     from selenium import webdriver
     from selenium.webdriver.chrome.options import Options
-    # from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.chrome.service import Service as ChromeService
-from webdriver_manager.chrome import ChromeDriverManager
-from modules.helpers import find_default_profile_directory, critical_error_log, print_lg
+    from selenium.webdriver.common.action_chains import ActionChains
+    from selenium.webdriver.support.ui import WebDriverWait
+    from selenium.webdriver.chrome.service import Service as ChromeService
+    from webdriver_manager.chrome import ChromeDriverManager
+    from modules.helpers import find_default_profile_directory, critical_error_log, print_lg
 import ssl
 ssl._create_default_https_context = ssl._create_stdlib_context
 try:
@@ -44,13 +29,13 @@ try:
         if profile_dir: options.add_argument(f"--user-data-dir={profile_dir}")
         else: print_lg("Default profile directory not found. Logging in with a guest profile, Web history will not be saved!")
     if stealth_mode:
-        # try: 
-        #     driver = uc.Chrome(driver_executable_path="C:\\Program Files\\Google\\Chrome\\chromedriver-win64\\chromedriver.exe", options=options)
-        # except (FileNotFoundError, PermissionError) as e: 
-        #     print_lg("(Undetected Mode) Got '{}' when using pre-installed ChromeDriver.".format(type(e).__name__)) 
+        try: 
+            driver = uc.Chrome(options=options)
+        except (FileNotFoundError, PermissionError) as e: 
+            print_lg("(Undetected Mode) Got '{}' when using pre-installed ChromeDriver.".format(type(e).__name__)) 
             print_lg("Downloading Chrome Driver... This may take some time. Undetected mode requires download every run!")
-            driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
-    else: driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install())) #, service=Service(executable_path="C:\\Program Files\\Google\\Chrome\\chromedriver-win64\\chromedriver.exe"))
+            driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+    else: driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options) #, service=Service(executable_path="C:\\Program Files\\Google\\Chrome\\chromedriver-win64\\chromedriver.exe"))
     driver.maximize_window()
     wait = WebDriverWait(driver, 5)
     actions = ActionChains(driver)
@@ -62,4 +47,3 @@ except Exception as e:
    
     try: driver.quit()
     except NameError: exit()
-    
