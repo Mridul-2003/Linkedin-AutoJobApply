@@ -1,36 +1,33 @@
 #!/bin/bash
 
-# Update and install wget, gnupg2, and ca-certificates
-apt-get update
-apt-get install -y wget gnupg2 ca-certificates
+# Attempt to download Chrome (Unlikely to Work)
+echo "Attempting to Download Chrome - This may fail"
+wget -q https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_120.0.6099.199-1_amd64.deb
 
-# Add the Google Chrome repository
-wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list
+# Attempt to extract the package to /tmp (Unlikely to work)
+if [ -f "google-chrome-stable_120.0.6099.199-1_amd64.deb" ]; then
+    echo "Deb package found"
+    mkdir -p /tmp/chrome_extract
+    dpkg-deb -x google-chrome-stable_120.0.6099.199-1_amd64.deb /tmp/chrome_extract
+else
+  echo "Deb package not found"
+fi
+# Attempt to download ChromeDriver (Unlikely to Work)
+echo "Attempting to Download ChromeDriver - This may fail"
+CHROMEDRIVER_VERSION=$(wget -qO- "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_120" | tr -d '\n')
+wget -q "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
 
-# Update again
-apt-get update
+# Attempt to unzip and put in /tmp
+if [ -f "chromedriver_linux64.zip" ]; then
+    echo "Chromedriver zip found"
+    mkdir -p /tmp/chromedriver
+    unzip chromedriver_linux64.zip -d /tmp/chromedriver
+    chmod +x /tmp/chromedriver/chromedriver
+else
+  echo "chromedriver zip not found"
+fi
 
-# Install Google Chrome stable
-apt-get install -y google-chrome-stable
-
-# Get Chrome version
-CHROME_VERSION=$(google-chrome --version | awk '{print $3}')
-echo "Chrome Version: $CHROME_VERSION"
-
-# Get ChromeDriver version
-CHROMEDRIVER_VERSION=$(wget -qO- "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION%%.*}" | tr -d '\n')
-echo "ChromeDriver Version: $CHROMEDRIVER_VERSION"
-
-# Download, unzip, and move ChromeDriver
-wget "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
-unzip chromedriver_linux64.zip -d /usr/local/bin
-rm chromedriver_linux64.zip
-chmod +x /usr/local/bin/chromedriver
-
-echo "Chrome and ChromeDriver installed."
-
-# Install Python dependencies
+# Install python requirements.
 pip install -r requirements.txt
 
-echo "Python dependencies installed."
+echo "Build process finished.  Install may have failed."
