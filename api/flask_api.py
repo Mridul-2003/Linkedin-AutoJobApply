@@ -65,6 +65,21 @@ def run_bot():
 
     except Exception as e:
         return jsonify({"error": f"Failed to start the bot: {str(e)}"}), 500
+        
+@app.route("/test_selenium_connectivity", methods=['GET'])
+def test_selenium_connectivity():
+    selenium_host = os.environ.get("SELENIUM_HOST", "selenium")
+    selenium_grid_url = f"http://{selenium_host}:4444/wd/hub"
+    try:
+       http = urllib3.PoolManager()
+       r = http.request('GET', selenium_grid_url)
+       if r.status == 200:
+        return f"Connection to Selenium at '{selenium_grid_url}' successful"
+       else:
+           return f"Connection to Selenium at '{selenium_grid_url}' failed with status code: {r.status}"
+    except Exception as e:
+         return f"Error connecting to Selenium at '{selenium_grid_url}': {e}"
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0",debug=True, port=8000)
