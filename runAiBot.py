@@ -394,7 +394,7 @@ def apply_filters() -> None:
 
 
 
-def get_page_info() -> tuple[WebElement | None, int | None]:
+def get_page_info(driver: WebDriver) -> Tuple[Optional[WebElement], Optional[int]]:
     '''
     Function to get pagination element and current page number
     '''
