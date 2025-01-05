@@ -18,19 +18,27 @@ from config.questions import *
 # from config.search import *
 from config.secrets import use_AI, username, password
 from config.settings import *
-
-from modules.open_chrome import *
 from modules.helpers import *
 from modules.clickers_and_finders import *
 from modules.validator import validate_config
 # from modules.ai.openaiConnections import *
 import sys
 from typing import Literal
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
 
-
-# pyautogui.FAILSAFE = False
-# if use_resume_generator:    from resume_generator import is_logged_in_GPT, login_GPT, open_resume_chat, create_custom_resume
-
+try:
+    options = Options()
+    options.add_argument("--disable-gpu")  # Disable GPU acceleration
+    options.add_argument("--no-sandbox")  # Required in some environments
+    options.add_argument("--disable-dev-shm-usage")# Avoids out-of-memory issues# Set the correct path to chrome
+    print("Initializing webdriver...")
+    driver = webdriver.Chrome(options=chrome_options)
+    driver.quit()
+except Exception as e:
+    print(f"Error: {e}")
 
 #< Global Variables and logics
 if len(sys.argv) > 1:
