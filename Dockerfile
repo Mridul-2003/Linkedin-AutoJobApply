@@ -2,33 +2,37 @@ FROM selenium/standalone-chrome:latest
 
 USER root
 
-# install Python3, pip, venv, and Xvfb
-RUN apt-get update && apt-get install -y python3-pip python3-venv xvfb build-essential libffi-dev python3-dev && apt-get clean && rm -rf /var/lib/apt/lists/*
+# Install Python3, pip, venv, Xvfb, and additional dependencies
+RUN apt-get update && apt-get install -y \
+    python3-pip python3-venv xvfb build-essential libffi-dev python3-dev libpq-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# set Python-related environment variables
+# Set Python-related environment variables
 ENV PYTHONUNBUFFERED=1
 ENV DISPLAY=:99
 
-# create and activate a virtual environment
+# Create and activate a virtual environment
 RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-# set up the working directory
+# Set up the working directory
 WORKDIR /app
 
-# copy and install requirements.txt
-COPY requirements.txt .
-RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r requirements.txt
+# Copy requirements and install dependencies
+COPY requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r /app/requirements.txt
 
-# copy the Python test script
-COPY . .
+# Copy the application code
+COPY . /app
 
-# ensure correct permissions for /tmp/.X11-unix to prevent Xvfb from issuing warnings
+# Ensure correct permissions for Xvfb
 RUN mkdir -p /tmp/.X11-unix && chmod 1777 /tmp/.X11-unix
 
-# change ownership of venv to seluser and switch users
+# Change ownership of /app and venv to seluser
 RUN chown -R seluser:seluser /opt/venv /app
+
+# Switch to seluser
 USER seluser
 
-# run Xvfb and the Python script
-CMD ["sh", "-c", "Xvfb :99 -ac 2>/dev/null & python3 -u api.py"]
+# Run Xvfb and the Python script
+CMD ["sh", "-c", "Xvfb :99 -ac & python3 -u api.py"]
