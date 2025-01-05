@@ -120,7 +120,7 @@ def manual_login_retry(is_logged_in: callable, limit: int = 2) -> None:
 
 
 
-def calculate_date_posted(time_string: str) -> Optional[datetime] | ValueError:
+def calculate_date_posted(time_string: str) -> Union[Optional[datetime], ValueError]:
     '''
     Function to calculate date posted from string.
     Returns datetime object | None if unable to calculate | ValueError if time_string is invalid
