@@ -41,7 +41,7 @@ try:
     options.add_argument("--verbose")
      # Connect to the Selenium Grid
     selenium_grid_url = "http://selenium:4444/wd/hub" # Use "selenium" as the host in docker network
-    driver = RemoteWebDriver(command_executor=selenium_grid_url, options=chrome_options)
+    driver = RemoteWebDriver(command_executor=selenium_grid_url, options=options)
     driver.quit()
 except Exception as e:
     print(f"Error: {e}")
