@@ -2,7 +2,7 @@
 
 import os
 import json
-
+from typing import List, Optional
 from time import sleep
 from random import randint
 from datetime import datetime, timedelta
