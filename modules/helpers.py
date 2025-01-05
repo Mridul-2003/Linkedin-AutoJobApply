@@ -1,8 +1,6 @@
-# Imports
-
 import os
 import json
-from typing import List, Optional
+from typing import List, Optional, Union
 from time import sleep
 from random import randint
 from datetime import datetime, timedelta
@@ -11,11 +9,10 @@ from pprint import pprint
 from config.settings import logs_folder_path
 
 
-
 #### Common functions ####
 
 #< Directories related
-def make_directories(paths: list[str]) -> None:
+def make_directories(paths: List[str]) -> None:
     '''
     Function to create missing directories
     '''
@@ -69,7 +66,7 @@ def get_log_path():
 __logs_file_path = get_log_path()
 
 
-def print_lg(*msgs: str | dict, end: str = "\n", pretty: bool = False, flush: bool = False, from_critical: bool = False) -> None:
+def print_lg(*msgs: Union[str, dict], end: str = "\n", pretty: bool = False, flush: bool = False, from_critical: bool = False) -> None:
     '''
     Function to log and print. **Note that, `end` and `flush` parameters are ignored if `pretty = True`**
     '''
@@ -123,7 +120,7 @@ def manual_login_retry(is_logged_in: callable, limit: int = 2) -> None:
 
 
 
-def calculate_date_posted(time_string: str) -> datetime | None | ValueError:
+def calculate_date_posted(time_string: str) -> Optional[datetime] | ValueError:
     '''
     Function to calculate date posted from string.
     Returns datetime object | None if unable to calculate | ValueError if time_string is invalid
