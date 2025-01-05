@@ -40,7 +40,8 @@ try:
     print("Initializing webdriver...")
     options.add_argument("--verbose")
      # Connect to the Selenium Grid
-    selenium_grid_url = "http://selenium:4444/wd/hub" # Use "selenium" as the host in docker network
+    selenium_host = os.environ.get("SELENIUM_HOST", "selenium")
+    selenium_grid_url = f"http://{selenium_host}:4444/wd/hub" # Use "selenium" as the host in docker network
     driver = RemoteWebDriver(command_executor=selenium_grid_url, options=options)
     driver.quit()
 except Exception as e:
