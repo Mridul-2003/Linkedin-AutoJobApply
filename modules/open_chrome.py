@@ -2,11 +2,6 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
-from pyvirtualdisplay import Display
-    #from selenium.webdriver.chrome.service import Service as ChromeService # remove webdriver_manager
-    #from webdriver_manager.chrome import ChromeDriverManager # remove webdriver_manager
-display = Display(backend="xvfb",visible=1, size=(1920, 1080))  # Adjusted for headless operation
-display.start()
 
 try:
     options = Options()
