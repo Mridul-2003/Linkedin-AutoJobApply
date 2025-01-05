@@ -42,7 +42,7 @@ try:
      # Connect to the Selenium Grid
     print(f"SELENIUM_HOST value: {os.environ.get('SELENIUM_HOST')}")
     selenium_host = os.environ.get("SELENIUM_HOST", "selenium")
-    selenium_grid_url = f"http://{selenium_host}:4444/wd/hub" # Use "selenium" as the host in docker network
+    selenium_grid_url = f"https://selenium-grid-server.onrender.com/wd/hub" # Use "selenium" as the host in docker network
     driver = RemoteWebDriver(command_executor=selenium_grid_url, options=options)
     driver.quit()
 except Exception as e:
