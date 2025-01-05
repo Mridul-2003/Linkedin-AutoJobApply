@@ -35,7 +35,7 @@ try:
     options.add_argument("--no-sandbox")  # Required in some environments
     options.add_argument("--disable-dev-shm-usage")# Avoids out-of-memory issues# Set the correct path to chrome
     print("Initializing webdriver...")
-    driver = webdriver.Chrome(options=options)
+    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()),options=options)
     driver.quit()
 except Exception as e:
     print(f"Error: {e}")
