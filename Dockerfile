@@ -24,12 +24,15 @@ RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r /a
 # Copy the application code
 COPY . /app
 
+# Create the 'seluser' group and user
+RUN groupadd -r seluser && useradd -r -g seluser seluser
+
 # Change ownership of /app and venv to seluser
 RUN chown -R seluser:seluser /opt/venv /app
 
 # Switch to seluser
 USER seluser
 # Expose port for Flask API
-EXPOSE 8000
+EXPOSE 5000
 # Run Python script
 CMD ["python3", "-u", "api.py"]
