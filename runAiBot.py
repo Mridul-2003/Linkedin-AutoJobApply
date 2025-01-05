@@ -886,10 +886,10 @@ def screenshot(driver: WebDriver, job_id: str, failedAt: str) -> str:
 
 
 
-def submitted_jobs(job_id: str, title: str, company: str, work_location: str, work_style: str, description: str, experience_required: int | Literal['Unknown', 'Error in extraction'], 
-                   skills: list[str] | Literal['In Development'], hr_name: str | Literal['Unknown'], hr_link: str | Literal['Unknown'], resume: str, 
-                   reposted: bool, date_listed: datetime | Literal['Unknown'], date_applied:  datetime | Literal['Pending'], job_link: str, application_link: str, 
-                   questions_list: set | None, connect_request: Literal['In Development']) -> None:
+def submitted_jobs(job_id: str, title: str, company: str, work_location: str, work_style: str, description: str, experience_required: Union[int, Literal['Unknown', 'Error in extraction']], 
+                   skills: Union[List[str], Literal['In Development']], hr_name: Union[str, Literal['Unknown']], hr_link: Union[str, Literal['Unknown']], resume: str, 
+                   reposted: bool, date_listed: Union[datetime, Literal['Unknown']], date_applied:  Union[datetime, Literal['Pending']], job_link: str, application_link: str, 
+                   questions_list: Optional[Set[str]], connect_request: Literal['In Development']) -> None:
     '''
     Function to create or update the Applied jobs CSV file, once the application is submitted successfully
     '''
@@ -907,7 +907,6 @@ def submitted_jobs(job_id: str, title: str, company: str, work_location: str, wo
     except Exception as e:
         print_lg("Failed to update submitted jobs list!", e)
         # pyautogui.alert("Failed to update the excel of applied jobs!\nProbably because of 1 of the following reasons:\n1. The file is currently open or in use by another program\n2. Permission denied to write to the file\n3. Failed to find the file", "Failed Logging")
-
 
 
 # Function to discard the job application
