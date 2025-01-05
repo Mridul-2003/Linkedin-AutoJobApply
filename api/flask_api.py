@@ -6,6 +6,7 @@ import os
 import tempfile
 import uuid
 import shutil
+import urllib3
 
 app = Flask(__name__)
 CORS(app)
