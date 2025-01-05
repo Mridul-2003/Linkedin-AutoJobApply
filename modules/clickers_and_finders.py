@@ -80,7 +80,7 @@ def boolean_button_click(driver: WebDriver, actions: ActionChains, text: str) ->
         # print_lg(e)
 
 # Find functions
-def find_by_class(driver: WebDriver, class_name: str, time: float=5.0) -> WebElement | Exception:
+def find_by_class(driver: WebDriver, class_name: str, time: float=5.0) -> Union[WebElement, Exception]:
     '''
     Waits for a max of `time` seconds for element to be found, and returns `WebElement` if found, else `Exception` if not found.
     '''
