@@ -112,7 +112,7 @@ def text_input_by_ID(driver: WebDriver, id: str, value: str, time: float=5.0) ->
     except Exception as e:
         return e
 
-def try_xp(driver: WebDriver, xpath: str, click: bool=True) -> WebElement | bool:
+def try_xp(driver: WebDriver, xpath: str, click: bool=True) -> Union[WebElement, bool]:
     try:
         if click:
             driver.find_element(By.XPATH, xpath).click()
@@ -121,7 +121,7 @@ def try_xp(driver: WebDriver, xpath: str, click: bool=True) -> WebElement | bool
             return driver.find_element(By.XPATH, xpath)
     except: return False
 
-def try_linkText(driver: WebDriver, linkText: str) -> WebElement | bool:
+def try_linkText(driver: WebDriver, linkText: str) -> Union[WebElement, bool]:
     try:    return driver.find_element(By.LINK_TEXT, linkText)
     except:  return False
 
