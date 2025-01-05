@@ -5,7 +5,7 @@ import re
 import requests
 from random import choice, shuffle, randint
 from datetime import datetime
-from typing import Tuple, Optional
+from typing import Tuple, Optional, Union, Set
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -461,7 +461,7 @@ def get_job_main_details(job: WebElement, blacklisted_companies: set, rejected_j
 
 
 # Function to check for Blacklisted words in About Company
-def check_blacklist(rejected_jobs: set, job_id: str, company: str, blacklisted_companies: set) -> tuple[set, set, WebElement] | ValueError:
+def check_blacklist(driver: WebDriver, rejected_jobs: set, job_id: str, company: str, blacklisted_companies: set) -> Union[Tuple[Set[str], Set[str], WebElement], ValueError]:
     jobs_top_card = try_find_by_classes(driver, ["job-details-jobs-unified-top-card__primary-description-container","job-details-jobs-unified-top-card__primary-description","jobs-unified-top-card__primary-description","jobs-details__main-content"])
     about_company_org = find_by_class(driver, "jobs-company__box")
     scroll_to_view(driver, about_company_org)
