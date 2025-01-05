@@ -41,6 +41,6 @@ RUN chown -R seluser:seluser /opt/venv /app
 # Switch to seluser
 USER seluser
 # Expose port for Flask API
-EXPOSE 5000
+EXPOSE 8000
 # Run Python script
 CMD ["sh", "-c", "Xvfb :99 -ac 2>/dev/null & python3 -u api/flask_api.py"]
