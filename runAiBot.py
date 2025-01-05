@@ -32,7 +32,7 @@ from selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
 
 try:
     options = Options()
-    options.add_argument("--headless")
+    # options.add_argument("--headless")
     options.add_argument("--disable-gpu")  # Disable GPU acceleration
     options.add_argument("--no-sandbox")
     options.add_argument('--remote-debugging-port=9222')# Required in some environments
@@ -44,7 +44,6 @@ try:
     selenium_host = os.environ.get("SELENIUM_HOST", "selenium")
     selenium_grid_url = f"https://selenium-grid-server.onrender.com/wd/hub" # Use "selenium" as the host in docker network
     driver = RemoteWebDriver(command_executor=selenium_grid_url, options=options)
-    driver.quit()
 except Exception as e:
     print(f"Error: {e}")
 
