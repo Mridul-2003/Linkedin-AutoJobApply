@@ -184,7 +184,7 @@ def validate_settings() -> Optional[Union[ValueError, TypeError]]:
 
 
 
-def validate_config() -> bool | ValueError | TypeError | None:
+def validate_config() -> Optional[Union[bool, ValueError, TypeError]]:
     validation_results = [
         validate_personals(),
         validate_questions(),
