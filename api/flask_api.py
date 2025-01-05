@@ -70,6 +70,13 @@ def run_bot():
 @app.route("/test_selenium_connectivity", methods=['GET'])
 def test_selenium_connectivity():
     selenium_host = os.environ.get("SELENIUM_HOST", "selenium")
+    print(f"Testing Connection to host '{selenium_host}'")
+    try:
+       ip_address = socket.gethostbyname(selenium_host)
+       print(f"Resolved IP Address for {selenium_host}: {ip_address}")
+    
+    except Exception as e:
+       return f"Error during DNS Resolution for {selenium_host}: {e}"
     selenium_grid_url = f"http://{selenium_host}:4444/wd/hub"
     try:
        http = urllib3.PoolManager()
