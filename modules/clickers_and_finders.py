@@ -7,7 +7,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.common.action_chains import ActionChains
-from typing import Union, Optional
+from typing import Union, Optional, List
 
 # Click Functions
 def wait_span_click(driver: WebDriver, text: str, time: float=5.0, click: bool=True, scroll: bool=True, scrollTop: bool=False) -> Union[WebElement, bool]:
@@ -125,7 +125,7 @@ def try_linkText(driver: WebDriver, linkText: str) -> Union[WebElement, bool]:
     try:    return driver.find_element(By.LINK_TEXT, linkText)
     except:  return False
 
-def try_find_by_classes(driver: WebDriver, classes: list[str]) -> WebElement | ValueError:
+def try_find_by_classes(driver: WebDriver, classes: List[str]) -> Union[WebElement, ValueError]:
     for cla in classes:
         try:    return driver.find_element(By.CLASS_NAME, cla)
         except: pass
@@ -144,13 +144,18 @@ def company_search_click(driver: WebDriver, actions: ActionChains, companyName: 
     actions.send_keys(Keys.ENTER).perform()
     print_lg(f'Tried searching and adding "{companyName}"')
 
-def text_input(actions: ActionChains, textInputEle: WebElement | bool, value: str, textFieldName: str = "Text") -> None | Exception:
+def text_input(actions: ActionChains, textInputEle: Union[WebElement, bool], value: str, textFieldName: str = "Text") -> Optional[Exception]:
     if textInputEle:
         sleep(1)
         # actions.key_down(Keys.CONTROL).send_keys("a").key_up(Keys.CONTROL).perform()
-        textInputEle.clear()
-        textInputEle.send_keys(value.strip())
-        sleep(2)
-        actions.send_keys(Keys.ENTER).perform()
+        try:
+          textInputEle.clear()
+          textInputEle.send_keys(value.strip())
+          sleep(2)
+          actions.send_keys(Keys.ENTER).perform()
+          return None
+        except Exception as e:
+          return e
     else:
         print_lg(f'{textFieldName} input was not given!')
+    return None
