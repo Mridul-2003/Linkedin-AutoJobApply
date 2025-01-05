@@ -5,7 +5,7 @@ import re
 import requests
 from random import choice, shuffle, randint
 from datetime import datetime
-
+from typing import Tuple, Optional
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
