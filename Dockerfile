@@ -1,55 +1,34 @@
-# Use the Selenium standalone Chrome image as the base
-FROM selenium/standalone-chrome:latest
+FROM selenium/standalone-chrome:129.0
 
-# Switch to root to install dependencies
 USER root
 
-# Install x11vnc.
-RUN apt-get install -y x11vnc
+# install Python3, pip, venv, and Xvfb
+RUN apt-get update && apt-get install -y python3-pip python3-venv xvfb build-essential libffi-dev python3-dev && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install xvfb.
-RUN apt-get install -y xvfb
+# set Python-related environment variables
+ENV PYTHONUNBUFFERED=1
+ENV DISPLAY=:99
 
-# Install fluxbox.
-RUN apt-get install -y fluxbox
+# create and activate a virtual environment
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
 
-# Install wget.
-RUN apt-get install -y wget
-
-
-
-# Install Python, pip, venv, and Xvfb for headless display
-RUN apt-get update && apt-get install -y \
-    python3-pip \
-    python3-venv \
-    xserver-xephyr\
-    xvfb \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Create the application directory and adjust permissions
-RUN mkdir -p /app && chown seluser:seluser /app
-
-# Switch back to the default non-root user
-USER seluser
+# set up the working directory
 WORKDIR /app
 
-# Create a virtual environment
-RUN python3 -m venv /app/venv
-
-# Copy requirements file and install Python dependencies
+# copy and install requirements.txt
 COPY requirements.txt .
-RUN /app/venv/bin/pip install --no-cache-dir -r /app/requirements.txt
+RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
-# Update PATH to use the virtual environment
-ENV PATH="/app/venv/bin:$PATH"
+# copy the Python test script
+COPY test_selenium.py .
 
-# Copy the application code
-COPY . .
+# ensure correct permissions for /tmp/.X11-unix to prevent Xvfb from issuing warnings
+RUN mkdir -p /tmp/.X11-unix && chmod 1777 /tmp/.X11-unix
 
-# Expose the port for Flask or any other web server
-EXPOSE 8000
- 
+# change ownership of venv to seluser and switch users
+RUN chown -R seluser:seluser /opt/venv /app
+USER seluser
 
-# Start Xvfb and the application
-ENTRYPOINT ["python3"]
-CMD ["api.py"]
+# run Xvfb and the Python script
+CMD ["sh", "-c", "Xvfb :99 -ac 2>/dev/null & python3 -u api.py"]
