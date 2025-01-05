@@ -7,7 +7,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.common.action_chains import ActionChains
-from typing import Union
+from typing import Union, Optional
 
 # Click Functions
 def wait_span_click(driver: WebDriver, text: str, time: float=5.0, click: bool=True, scroll: bool=True, scrollTop: bool=False) -> Union[WebElement, bool]:
@@ -99,14 +99,18 @@ def scroll_to_view(driver: WebDriver, element: WebElement, top: bool = False, sm
     return driver.execute_script('arguments[0].scrollIntoView({block: "center", behavior: "'+behavior+'" });', element)
 
 # Enter input text functions
-def text_input_by_ID(driver: WebDriver, id: str, value: str, time: float=5.0) -> None | Exception:
+def text_input_by_ID(driver: WebDriver, id: str, value: str, time: float=5.0) -> Optional[Exception]:
     '''
     Enters `value` into the input field with the given `id` if found, else throws NotFoundException.
     - `time` is the max time to wait for the element to be found.
     '''
-    username_field = WebDriverWait(driver, time).until(EC.presence_of_element_located((By.ID, id)))
-    username_field.send_keys(Keys.CONTROL + "a")
-    username_field.send_keys(value)
+    try:
+        username_field = WebDriverWait(driver, time).until(EC.presence_of_element_located((By.ID, id)))
+        username_field.send_keys(Keys.CONTROL + "a")
+        username_field.send_keys(value)
+        return None
+    except Exception as e:
+        return e
 
 def try_xp(driver: WebDriver, xpath: str, click: bool=True) -> WebElement | bool:
     try:
