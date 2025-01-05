@@ -7,7 +7,7 @@ from pyvirtualdisplay import Display
     #from webdriver_manager.chrome import ChromeDriverManager # remove webdriver_manager
 
 try:
-    display = Display(visible=1, size=(1920, 1080))  # Adjusted for headless operation
+    display = Display(backend="xvfb",visible=1, size=(1920, 1080))  # Adjusted for headless operation
     display.start()
     options = Options()
     options.add_argument("--disable-gpu")  # Disable GPU acceleration
