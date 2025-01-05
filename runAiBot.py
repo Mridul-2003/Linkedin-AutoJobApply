@@ -28,6 +28,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
 
 try:
     options = Options()
@@ -38,7 +39,9 @@ try:
     options.add_argument("--disable-dev-shm-usage")# Avoids out-of-memory issues# Set the correct path to chrome
     print("Initializing webdriver...")
     options.add_argument("--verbose")
-    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()),options=options)
+     # Connect to the Selenium Grid
+    selenium_grid_url = "http://selenium:4444/wd/hub" # Use "selenium" as the host in docker network
+    driver = RemoteWebDriver(command_executor=selenium_grid_url, options=chrome_options)
     driver.quit()
 except Exception as e:
     print(f"Error: {e}")
