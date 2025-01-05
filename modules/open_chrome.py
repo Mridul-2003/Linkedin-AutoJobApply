@@ -5,10 +5,10 @@ from webdriver_manager.chrome import ChromeDriverManager
 from pyvirtualdisplay import Display
     #from selenium.webdriver.chrome.service import Service as ChromeService # remove webdriver_manager
     #from webdriver_manager.chrome import ChromeDriverManager # remove webdriver_manager
+display = Display(backend="xvfb",visible=1, size=(1920, 1080))  # Adjusted for headless operation
+display.start()
 
 try:
-    display = Display(backend="xvfb",visible=1, size=(1920, 1080))  # Adjusted for headless operation
-    display.start()
     options = Options()
     options.add_argument("--disable-gpu")  # Disable GPU acceleration
     options.add_argument("--no-sandbox")  # Required in some environments
