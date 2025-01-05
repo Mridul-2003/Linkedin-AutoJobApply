@@ -31,12 +31,13 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 try:
     options = Options()
+    options.add_argument("--headless")
     options.add_argument("--disable-gpu")  # Disable GPU acceleration
     options.add_argument("--no-sandbox")  # Required in some environments
     options.add_argument("--disable-dev-shm-usage")# Avoids out-of-memory issues# Set the correct path to chrome
     print("Initializing webdriver...")
     options.add_argument("--verbose")
-    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install(),port=9515),options=options)
+    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()),options=options)
     driver.quit()
 except Exception as e:
     print(f"Error: {e}")
@@ -262,27 +263,27 @@ def login_LN() -> None:
     '''
     # Find the username and password fields and fill them with user credentials
     driver.get("https://www.linkedin.com/login")
-    # try:
-    #     wait.until(EC.presence_of_element_located((By.LINK_TEXT, "Forgot password?")))
-    #     try:
-    #         text_input_by_ID(driver, "username", username, 1)
-    #     except Exception as e:
-    #         print_lg("Couldn't find username field.")
-    #         # print_lg(e)
-    #     try:
-    #         text_input_by_ID(driver, "password", password, 1)
-    #     except Exception as e:
-    #         print_lg("Couldn't find password field.")
-    #         # print_lg(e)
-    #     # Find the login submit button and click it
-    #     driver.find_element(By.XPATH, '//button[@type="submit" and contains(text(), "Sign in")]').click()
-    # except Exception as e1:
-    #     try:
-    #         profile_button = find_by_class(driver, "profile__details")
-    #         profile_button.click()
-    #     except Exception as e2:
-    #         # print_lg(e1, e2)
-    #         print_lg("Couldn't Login!")
+    try:
+        wait.until(EC.presence_of_element_located((By.LINK_TEXT, "Forgot password?")))
+        try:
+            text_input_by_ID(driver, "username", mridulmittal2003@gmail.com, 1)
+        except Exception as e:
+            print_lg("Couldn't find username field.")
+            # print_lg(e)
+        try:
+            text_input_by_ID(driver, "password",2101JanM, 1)
+        except Exception as e:
+            print_lg("Couldn't find password field.")
+            # print_lg(e)
+        # Find the login submit button and click it
+        driver.find_element(By.XPATH, '//button[@type="submit" and contains(text(), "Sign in")]').click()
+    except Exception as e1:
+        try:
+            profile_button = find_by_class(driver, "profile__details")
+            profile_button.click()
+        except Exception as e2:
+            # print_lg(e1, e2)
+            print_lg("Couldn't Login!")
 
     try:
         # Wait until successful redirect, indicating successful login
