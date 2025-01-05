@@ -35,4 +35,4 @@ USER seluser
 # Expose port for Flask API
 EXPOSE 5000
 # Run Python script
-CMD ["python3", "-u", "api.py"]
+CMD ["python3", "-u", "api/api.py"]
