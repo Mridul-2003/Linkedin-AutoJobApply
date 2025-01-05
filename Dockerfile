@@ -35,4 +35,4 @@ RUN chown -R seluser:seluser /opt/venv /app
 USER seluser
 
 # Run Xvfb and the Python script
-CMD ["sh", "-c", "Xvfb :99 -ac & python3 -u api.py"]
+CMD ["python3", "-u", "api.py"]
