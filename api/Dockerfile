@@ -1,46 +1,51 @@
+# Use Python 3.9-slim as the base image
 FROM python:3.9-slim
 
+# Run commands as root
 USER root
 
-# install Python3, pip, venv, and Xvfb
-RUN apt-get update && apt-get install -y python3-pip python3-venv xvfb build-essential libffi-dev python3-dev && apt-get clean && rm -rf /var/lib/apt/lists/*
+# Install Python3, pip, Xvfb, and necessary system dependencies
+RUN apt-get update && \
+    apt-get install -y \
+    python3-pip \
+    xvfb \
+    build-essential \
+    libffi-dev \
+    python3-dev && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-# set Python-related environment variables
-ENV PYTHONUNBUFFERED=1
-ENV DISPLAY=:99
+# Set Python-related environment variables
+ENV PYTHONUNBUFFERED=1 \
+    DISPLAY=:99
 
-# create and activate a virtual environment
+# Create a virtual environment and add it to the PATH
 RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-# set up the working directory
+# Set the working directory to /app
 WORKDIR /app
 
+# Copy requirements.txt first to leverage Docker cache
+COPY api/requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
-# Create and activate a virtual environment
-RUN python3 -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
+# Copy the rest of the application code
+COPY . .
 
-# Set up the working directory
-WORKDIR /app
+# Create a non-root user 'seluser' and give access to necessary directories
+RUN groupadd -r seluser && \
+    useradd -r -g seluser seluser && \
+    mkdir -p /tmp/.X11-unix && \
+    chmod 1777 /tmp/.X11-unix && \
+    chown -R seluser:seluser /opt/venv /app
 
-# Copy requirements and install dependencies
-COPY api/requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r /app/requirements.txt
-
-# Copy the application code
-COPY . /app
-
-# Create the 'seluser' group and user
-RUN groupadd -r seluser && useradd -r -g seluser seluser
-
-RUN mkdir -p /tmp/.X11-unix && chmod 1777 /tmp/.X11-unix
-# Change ownership of /app and venv to seluser
-RUN chown -R seluser:seluser /opt/venv /app
-
-# Switch to seluser
+# Switch to non-root user
 USER seluser
-# Expose port for Flask API
+
+# Expose the port the Flask app runs on
 EXPOSE 8000
-# Run Python script
-CMD ["sh", "-c", "Xvfb :99 -ac 2>/dev/null & python3 -u api/flask_api.py"]
+
+# Start Xvfb and the Flask application
+CMD ["sh", "-c", "Xvfb :99 -ac & exec python3 -u api/flask_api.py"]
