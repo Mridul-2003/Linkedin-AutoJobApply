@@ -295,37 +295,37 @@ def login_linkedin(driver, username, password):
         wait = WebDriverWait(driver, 10)  # Wait for up to 10 seconds
         
         # Wait for "Forgot password?" link to ensure the page has loaded
-        wait.until(EC.presence_of_element_located((By.LINK_TEXT, "Forgot password?")))
-        print("Login page loaded successfully.")
+        # wait.until(EC.presence_of_element_located((By.LINK_TEXT, "Forgot password?")))
+        # print("Login page loaded successfully.")
         
-        # Enter username
-        try:
-            username_field = wait.until(EC.presence_of_element_located((By.ID, "username")))
-            username_field.clear()
-            username_field.send_keys(username)
-        except TimeoutException:
-            print("Couldn't find the username field.")
-            return False
+        # # Enter username
+        # try:
+        #     username_field = wait.until(EC.presence_of_element_located((By.ID, "username")))
+        #     username_field.clear()
+        #     username_field.send_keys(username)
+        # except TimeoutException:
+        #     print("Couldn't find the username field.")
+        #     return False
 
-        # Enter password
-        try:
-            password_field = wait.until(EC.presence_of_element_located((By.ID, "password")))
-            password_field.clear()
-            password_field.send_keys(password)
-        except TimeoutException:
-            print("Couldn't find the password field.")
-            return False
+        # # Enter password
+        # try:
+        #     password_field = wait.until(EC.presence_of_element_located((By.ID, "password")))
+        #     password_field.clear()
+        #     password_field.send_keys(password)
+        # except TimeoutException:
+        #     print("Couldn't find the password field.")
+        #     return False
 
-        # Click the login button
-        try:
-            login_button = wait.until(EC.presence_of_element_located(
-                (By.XPATH, '//button[@type="submit" and contains(text(), "Sign in")]')
-            ))
-            login_button.click()
-            print("Login button clicked.")
-        except TimeoutException:
-            print("Couldn't find or click the login button.")
-            return False
+        # # Click the login button
+        # try:
+        #     login_button = wait.until(EC.presence_of_element_located(
+        #         (By.XPATH, '//button[@type="submit" and contains(text(), "Sign in")]')
+        #     ))
+        #     login_button.click()
+        #     print("Login button clicked.")
+        # except TimeoutException:
+        #     print("Couldn't find or click the login button.")
+        #     return False
         
         # Wait for the post-login URL or specific feed element
         try:
