@@ -53,8 +53,14 @@ try:
     selenium_host = os.environ.get("SELENIUM_HOST", "selenium")
     selenium_grid_url = f"https://selenium-grid-server.onrender.com/" # Use "selenium" as the host in docker network
     try:
-        capabilities = options.to_capabilities()
-        driver = webdriver.Remote(command_executor=selenium_grid_url,options=options)
+        capabilities = DesiredCapabilities.CHROME.copy()
+        capabilities["platformName"] = "linux"
+        capabilities["browserName"] = "chrome"
+        
+        driver = webdriver.Remote(
+            command_executor=selenium_grid_url,
+            desired_capabilities=capabilities
+        )
     except Exception as grid_error:
         print(f"Failed to connect to Selenium Grid: {grid_error}")
         print("Falling back to local ChromeDriver...")
