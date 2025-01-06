@@ -289,7 +289,7 @@ def login_linkedin(driver, username, password):
         driver.get("https://www.linkedin.com/login")
         print("The current URL for login is:", driver.current_url)
         
-        wait = WebDriverWait(driver, 10)  # Wait for up to 10 seconds
+        wait = WebDriverWait(driver, 180)  # Wait for up to 10 seconds
         
         # Wait for "Forgot password?" link to ensure the page has loaded
         # wait.until(EC.presence_of_element_located((By.LINK_TEXT, "Forgot password?")))
