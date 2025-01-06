@@ -288,26 +288,53 @@ def login_linkedin(driver, username, password):
     driver.get("https://www.linkedin.com/login")
     print("The current url for Login is :",driver.current_url)
     try:
+        # Open LinkedIn login page
+        driver.get("https://www.linkedin.com/login")
+        print("The current URL for login is:", driver.current_url)
+        
+        wait = WebDriverWait(driver, 10)  # Wait for up to 10 seconds
+        
+        # Wait for "Forgot password?" link to ensure the page has loaded
         wait.until(EC.presence_of_element_located((By.LINK_TEXT, "Forgot password?")))
+        print("Login page loaded successfully.")
+        
+        # Enter username
         try:
-            text_input_by_ID(driver, "username",username, 1)
-        except Exception as e:
-            print_lg("Couldn't find username field.")
-            # print_lg(e)
+            username_field = wait.until(EC.presence_of_element_located((By.ID, "username")))
+            username_field.clear()
+            username_field.send_keys(username)
+        except TimeoutException:
+            print("Couldn't find the username field.")
+            return False
+
+        # Enter password
         try:
-            text_input_by_ID(driver, "password",password, 1)
-        except Exception as e:
-            print_lg("Couldn't find password field.")
-            # print_lg(e)
-        # Find the login submit button and click it
-        driver.find_element(By.XPATH, '//button[@type="submit" and contains(text(), "Sign in")]').click()
-    except Exception as e1:
+            password_field = wait.until(EC.presence_of_element_located((By.ID, "password")))
+            password_field.clear()
+            password_field.send_keys(password)
+        except TimeoutException:
+            print("Couldn't find the password field.")
+            return False
+
+        # Click the login button
         try:
-            profile_button = find_by_class(driver, "profile__details")
-            profile_button.click()
-        except Exception as e2:
-            # print_lg(e1, e2)
-            print_lg("Couldn't Login!")
+            login_button = wait.until(EC.presence_of_element_located(
+                (By.XPATH, '//button[@type="submit" and contains(text(), "Sign in")]')
+            ))
+            login_button.click()
+            print("Login button clicked.")
+        except TimeoutException:
+            print("Couldn't find or click the login button.")
+            return False
+        
+        # Wait for the post-login URL or specific feed element
+        try:
+            wait.until(EC.url_contains("https://www.linkedin.com/feed/"))
+            print("Login successful!")
+            return True
+        except TimeoutException:
+            print("Login failed: Incorrect credentials or manual login required.")
+            return False
 
     try:
         # Wait until successful redirect, indicating successful login
