@@ -337,12 +337,11 @@ def login_linkedin(driver, username, password):
             return False
 
     try:
-        # Wait until successful redirect, indicating successful login
         wait.until(EC.url_to_be("https://www.linkedin.com/feed/")) # wait.until(EC.presence_of_element_located((By.XPATH, '//button[normalize-space(.)="Start a post"]')))
-        return print_lg("Login successful!")
+            return print_lg("Login successful!")
     except Exception as e:
         print_lg("Seems like login attempt failed! Possibly due to wrong credentials or already logged in! Try logging in manually!")
-        # print_lg(e)
+            # print_lg(e)
         manual_login_retry(is_logged_in_LN, 2)
 
 
