@@ -29,23 +29,45 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
+from selenium.common.exceptions import TimeoutException, NoSuchElementException, ElementClickInterceptedException
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support.ui import WebDriverWait
+import undetected_chromedriver as uc
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+import ssl
+ssl._create_default_https_context = ssl._create_stdlib_context
 
 try:
-    options = Options()
-    # options.add_argument("--headless")
+    options = uc.ChromeOptions()
+    options.add_argument(
+    "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36"
+)
     options.add_argument("--disable-gpu")  # Disable GPU acceleration
     options.add_argument("--no-sandbox")
+    options.add_argument("--disable-software-rasterizer")
     options.add_argument('--remote-debugging-port=9222')# Required in some environments
-    options.add_argument("--disable-dev-shm-usage")# Avoids out-of-memory issues# Set the correct path to chrome
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--start-maximized")
+    options.add_argument("--disable-blink-features=AutomationControlled")
     print("Initializing webdriver...")
     options.add_argument("--verbose")
      # Connect to the Selenium Grid
     print(f"SELENIUM_HOST value: {os.environ.get('SELENIUM_HOST')}")
     selenium_host = os.environ.get("SELENIUM_HOST", "selenium")
     selenium_grid_url = f"https://selenium-grid-server.onrender.com/wd/hub" # Use "selenium" as the host in docker network
-    driver = RemoteWebDriver(command_executor=selenium_grid_url, options=options)
+    try:
+        capabilities = options.to_capabilities()
+        driver = webdriver.Remote(command_executor=selenium_grid_url,options=options)
+    except Exception as grid_error:
+        print(f"Failed to connect to Selenium Grid: {grid_error}")
+        print("Falling back to local ChromeDriver...")
+        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+    wait = WebDriverWait(driver, 5)
+    actions = ActionChains(driver)
+    print("WebDriver initialized successfully!")
 except Exception as e:
-    print(f"Error: {e}")
+    print(f"Error initializing WebDriver: {e}")
+
 
 #< Global Variables and logics
 if len(sys.argv) > 1:
@@ -259,14 +281,10 @@ def is_logged_in_LN() -> bool:
     return True
 
 
-def login_LN() -> None:
-    '''
-    Function to login for LinkedIn
-    * Tries to login using given `username` and `password` from `secrets.py`
-    * If failed, tries to login using saved LinkedIn profile button if available
-    * If both failed, asks user to login manually
-    '''
-    # Find the username and password fields and fill them with user credentials
+def login_linkedin(driver, username, password):
+    """
+    Logs into LinkedIn using the provided username and password.
+    """
     driver.get("https://www.linkedin.com/login")
     print("The current url for Login is :",driver.current_url)
     try:
@@ -299,8 +317,6 @@ def login_LN() -> None:
         print_lg("Seems like login attempt failed! Possibly due to wrong credentials or already logged in! Try logging in manually!")
         # print_lg(e)
         manual_login_retry(is_logged_in_LN, 2)
-#>
-
 
 
 def get_applied_job_ids() -> set:
@@ -945,7 +961,11 @@ def apply_to_jobs(search_terms: list[str]) -> None:
 
                 # Find all job listings in current page
                 buffer(3)
-                job_listings = driver.find_elements(By.XPATH, "//li[@data-occludable-job-id]")  
+                job_listings = WebDriverWait(driver, 10).until(
+                    EC.presence_of_all_elements_located((By.XPATH, "//li[@data-occludable-job-id]"))
+                )
+                print(f"Found {len(job_listings)} job listings on current page.")
+
 
             
                 for job in job_listings:
@@ -1191,7 +1211,7 @@ def main() -> None:
         # Login to LinkedIn
         tabs_count = len(driver.window_handles)
         driver.get("https://www.linkedin.com/login")
-        if not is_logged_in_LN(): login_LN()
+        if not is_logged_in_LN(): login_linkedin(driver,username,password)
         
         linkedIn_tab = driver.current_window_handle
 
