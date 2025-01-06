@@ -336,9 +336,6 @@ def login_linkedin(driver, username, password):
             print("Login failed: Incorrect credentials or manual login required.")
             return False
 
-    try:
-        wait.until(EC.url_to_be("https://www.linkedin.com/feed/")) # wait.until(EC.presence_of_element_located((By.XPATH, '//button[normalize-space(.)="Start a post"]')))
-            return print_lg("Login successful!")
     except Exception as e:
         print_lg("Seems like login attempt failed! Possibly due to wrong credentials or already logged in! Try logging in manually!")
             # print_lg(e)
