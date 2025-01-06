@@ -38,7 +38,7 @@ import ssl
 ssl._create_default_https_context = ssl._create_stdlib_context
 
 try:
-    options = uc.ChromeOptions()
+    options = ChromeOptions()
     options.add_argument("--disable-gpu")  # Disable GPU acceleration
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-software-rasterizer")
@@ -48,6 +48,7 @@ try:
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_argument("platformName=linux")
     options.add_argument("browserName=chrome")
+    options.add_experimental_option("excludeSwitches", ["enable-automation"])
     print("Initializing webdriver...")
     options.add_argument("--verbose")
      # Connect to the Selenium Grid
