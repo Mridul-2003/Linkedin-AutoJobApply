@@ -46,6 +46,8 @@ try:
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--start-maximized")
     options.add_argument("--disable-blink-features=AutomationControlled")
+    options.add_argument("platformName=linux")
+    options.add_argument("browserName=chrome")
     print("Initializing webdriver...")
     options.add_argument("--verbose")
      # Connect to the Selenium Grid
@@ -53,13 +55,9 @@ try:
     selenium_host = os.environ.get("SELENIUM_HOST", "selenium")
     selenium_grid_url = f"https://selenium-grid-server.onrender.com/" # Use "selenium" as the host in docker network
     try:
-        capabilities = DesiredCapabilities.CHROME.copy()
-        capabilities["platformName"] = "linux"
-        capabilities["browserName"] = "chrome"
-        
         driver = webdriver.Remote(
             command_executor=selenium_grid_url,
-            desired_capabilities=capabilities
+            options=options
         )
     except Exception as grid_error:
         print(f"Failed to connect to Selenium Grid: {grid_error}")
