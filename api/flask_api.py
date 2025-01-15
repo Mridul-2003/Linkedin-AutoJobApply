@@ -52,11 +52,16 @@ def run_bot():
             with tempfile.TemporaryDirectory() as temp_dir:  # Create a temporary directory
                 temp_filename = os.path.join(temp_dir, f"{uuid.uuid4()}-{resume_file.filename}")
                 resume_file.save(temp_filename)
-                user_config['resume_path'] = temp_filename
+                user_config['resume_path'] = temp_filename  # Ensure this key is properly set
+
+                # Log the value of resume_path for debugging
+                print("Resume file saved at:", temp_filename)
+                print("Updated user_config with resume_path:", user_config)
+
 
                 # Construct the command to execute runaibot.py
                 
-                command = ['python', 'runAiBot.py', json.dumps(user_config)]
+                command = ['python3', 'runAiBot.py', json.dumps(user_config)]
 
                         # Start the runaibot.py script in the background.  Consider using a process pool for better management.
                 subprocess.Popen(command)

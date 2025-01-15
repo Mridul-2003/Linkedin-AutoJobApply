@@ -116,6 +116,7 @@ def try_xp(driver: WebDriver, xpath: str, click: bool=True) -> Union[WebElement,
     try:
         if click:
             driver.find_element(By.XPATH, xpath).click()
+            print("CLicked")
             return True
         else:
             return driver.find_element(By.XPATH, xpath)

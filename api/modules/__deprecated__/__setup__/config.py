@@ -107,7 +107,7 @@ fair_chance_employer = False       # True or False, Note: True or False are case
 phone_number = "9876543210"        # Enter your 10 digit number in quotes Eg: "9876543210"
 
 # Give an relative or absolute path of your default resume to be uploaded. If file in not found, will continue using your previously uploaded resume in LinkedIn.
-# default_resume_path = "all resumes/default/resume.pdf"      # (In Development)
+default_resume_path = "/Volumes/PortableSSD/AutoJobsApply/resume (17).pdf"      # (In Development)
 
 # What do you want to answer for questions that ask about years of experience you have, this is different from current_experience? 
 years_of_experience = "5"          # A number in quotes Eg: "0","1","2","3","4", etc.
